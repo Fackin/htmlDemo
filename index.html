@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <header>
+    <style>
+      img {
+        width: 300px;
+      }
+    </style>
+  </header>
+  <body>
+    <img id="img" src="https://qding2-saas-public.oss-cn-beijing.aliyuncs.com/1392078929033515008/1649313910252_1502_2.png"/>
+    <!-- <canvas id="canvas" width="200" height="200"></canvas> -->
+    <div id="color" style="width: 200px; height:200px"></div>
+    <script>
+      const oImg = document.getElementById('img');
+      // oImg.src = `https://qding2-saas-public.oss-cn-beijing.aliyuncs.com/1392078929033515008/1649313910252_1502_2.png`;
+      // oImg.crossOrigin = '';
+
+      // const canvas = document.getElementById('canvas');
+      // const context = canvas.getContext('2d');
+
+      // const oImg = new Image();
+      // oImg.src = `https://qding2-saas-public.oss-cn-beijing.aliyuncs.com/1392078929033515008/1649313910252_1502_2.png`;
+      oImg.crossOrigin = '';
+      oImg.onload = function() {
+        const w = this.width;
+        const h = this.height;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+
+        const context = canvas.getContext('2d');
+        context.drawImage(oImg, 0, 0);
+
+        console.log(context);
+
+        let pxArr = context.getImageData(0,0,w,h).data;
+        pxArr = Array.from(pxArr);
+
+        console.log(pxArr)
+
+        // onload 内
+        const colorList = {}
+        let i = 0;
+        while (i < pxArr.length) {
+          const r = pxArr[i];
+          const g = pxArr[i + 1];
+          const b = pxArr[i + 2];
+          const a = pxArr[i + 3];
+          i = i + 4; // 最后 +4 比每次 i++ 快 10ms 左右性能
+          const key = [r,g,b,a].join(',')
+          key in colorList ? ++colorList[key] : (colorList[key] = 1)
+        }
+        console.log(colorList)
+        // onload 内
+        let arr = [];
+        for(let key in colorList){
+          arr.push({
+            rgba: `rgba(${key})`,
+            num: colorList[key]
+          })
+        }
+        arr = arr.sort((a,b) => b.num - a.num)
+
+        console.log(arr)
+        var color = document.getElementById('color');
+        color.style.background = arr[0].rgba;
+        color.textContent = `${arr[0].rgba}  ${arr[0].num}`;
+      }
+    </script>
+  </body>
+</html>
