@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>DOM操作测试</title>
+</head>
+<body>
+  <div id="container"></div>
+</body>
+
+<script type="text/javascript">
+	for(var count=0;count<5000;count++){ 
+	  document.getElementById('container').innerHTML+='<span>我是一个小测试</span>'  //我们每一次循环都调用 DOM 接口重新获取了一次 container 元素，额外开销
+	} 
+</script>
+</html>
