@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>复制文章内容自动添加你的网址信息</title>
+  </head>
+
+  <body>
+    <!-- <script type="text/javascript">
+      document.body.oncopy = function (e) {
+        console.log(e)
+        setTimeout(function () {
+
+          var text = e.clipboardData.getData("text");
+          console.log(text)
+
+          if (text) {
+
+            text = text + "rn文章来自: 网站名称(//www.laike.net)  详文参考：" + location.href;
+            e.clipboardData.setData("text", text);
+
+          }
+
+        }, 100)
+
+      }
+    </script> -->
+    <script type="text/javascript">
+      var Sys = {};
+      var ua = navigator.userAgent.toLowerCase();
+      if (window.ActiveXObject) {
+        console.log('11')
+        document.body.oncopy = function () {
+          event.returnValue = false;
+          var t = document.selection.createRange().text;
+          console.log('11', t)
+          var s = " 原文链接：" + location.href;
+          clipboardData.setData('Text', t + '\r\n' + s);
+        };
+      } else {
+        console.log('22', window.getSelection())
+
+        function addLink() {
+          var body_element = document.getElementsByTagName('body')[0];
+          var selection;
+          selection = window.getSelection();
+          var pagelink = " 原文链接：" + location.href;
+          var copytext = selection + pagelink;
+          var newdiv = document.createElement('div');
+          newdiv.style.position = 'absolute';
+          newdiv.style.left = '-99999px';
+          body_element.appendChild(newdiv);
+          newdiv.innerHTML = copytext;
+          selection.selectAllChildren(newdiv);
+          window.setTimeout(function () {
+            body_element.removeChild(newdiv);
+          }, 0);
+        }
+        document.oncopy = addLink;
+      }
+    </script>
+    这段文字纯属测试，你可以将其复制，然后粘贴到其它地方，看一下，是不是里面加入了本站的网址。
+  </body>
+
+</html>
