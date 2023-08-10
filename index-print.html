@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <a href="javascript:void(0);" class="dayin">打印</a>
+
+    <!-- <iframe src="./a.html" frameborder="0" id='print-iframe'>
+
+    </iframe> -->
+    <div id="printcontent">
+        <table >
+            <tr>
+                <th>名</th>
+                <th>作</th>
+                <th>内</th>
+            </tr>
+            <tr>
+                <td>浣溪沙</td>
+                <td>[宋] 赵彦端</td>
+                <td>菊已开时梅未通。似寒如暖意融融。情亲语妙一杯中。歌舞欲来须更理，林泉有乐政须同。好诗多味酒无功。</td>
+            </tr>
+            <tr>
+                <td>春暮</td>
+                <td>[宋] 方岳</td>
+                <td>卷中未有好诗看，草满池塘梦已残。客又不来春又暮，一帘新雨杏花寒。</td>
+            </tr>
+        </table>
+        <img src="https://www.shicimingju.com/pics/item/2973.jpg" alt="">
+
+    </div>
+
+    <script>
+        $(function(){
+            $('.dayin').click(function(){
+                doPrint3()
+            })
+        })
+        
+        function doPrint3(){
+            //判断iframe是否存在，不存在则创建iframe
+            var iframe=document.getElementById("print-iframe");
+            if(!iframe){  
+                var el = document.getElementById("printcontent");
+                iframe = document.createElement('IFRAME');
+                var doc = null;
+                iframe.setAttribute("id", "print-iframe");
+                iframe.setAttribute('style', 'position:absolute;width:0px;height:0px;left:-500px;top:-500px;');
+                document.body.appendChild(iframe);
+                doc = iframe.contentWindow.document;
+                //这里可以自定义样式
+                //doc.write("<LINK rel="stylesheet" type="text/css" href="css/print.css">");
+                doc.write("<title>我是title头部信息啊！！！</title>");
+                doc.write('<div>' + el.innerHTML + '</div>');
+                doc.close();
+                iframe.contentWindow.focus();            
+            }
+            iframe.contentWindow.print();
+            if (navigator.userAgent.indexOf("MSIE") > 0){
+                document.body.removeChild(iframe);
+            }
+        }
+    </script>
+</body>
+</html>
